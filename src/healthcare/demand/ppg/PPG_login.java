@@ -8,10 +8,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,8 +29,6 @@ public class PPG_login extends Activity {
      */
 
     Context context;
-    ViewMethod vm = new ViewMethod();
-    Views vs = new Views();
 
     // VIEWS
     ImageView splash;
@@ -125,27 +123,35 @@ public class PPG_login extends Activity {
             }
         });
 
-        ll_login.setOnTouchListener(new View.OnTouchListener() {
+        Button login = (Button)findViewById(R.id.login);
+        login.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        login.setTextColor(Color.parseColor("#f5f5f5"));
-                        vs.customBox(login, "#444444", "#444444", 60, 2);
-                        break;
-                    case MotionEvent.ACTION_CANCEL:
-                        login.setTextColor(Color.parseColor("#444444"));
-                        vs.customBox(login, "#f5f5f5", "#444444", 60, 2);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        login.setTextColor(Color.parseColor("#444444"));
-                        vs.customBox(login, "#f5f5f5", "#444444", 60, 2);
-                        login();
-                        break;
-                }
-                return true;
+            public void onClick(View v) {
+                login();
             }
         });
+
+//        ll_login.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                switch (event.getAction()) {
+//                    case MotionEvent.ACTION_DOWN:
+//                        login.setTextColor(Color.parseColor("#f5f5f5"));
+//                      //  vs.customBox(login, "#444444", "#444444", 60, 2);
+//                        break;
+//                    case MotionEvent.ACTION_CANCEL:
+//                        login.setTextColor(Color.parseColor("#444444"));
+//                    //    vs.customBox(login, "#f5f5f5", "#444444", 60, 2);
+//                        break;
+//                    case MotionEvent.ACTION_UP:
+//                        login.setTextColor(Color.parseColor("#444444"));
+//                      //  vs.customBox(login, "#f5f5f5", "#444444", 60, 2);
+//                        login();
+//                        break;
+//                }
+//                return true;
+//            }
+//        });
     }
 
     private void splashEvent() {

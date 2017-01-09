@@ -75,8 +75,7 @@ public class PPG_hrm extends Activity {
     public static AtomicInteger timeSum = new AtomicInteger(0);
     //
     /////////////////////////////// VIEWS ///////////////////////////////////
-    ViewMethod vm = new ViewMethod();
-    Views vs = new Views();
+
     Events evnts = new Events();
     //
     Context context;
@@ -123,6 +122,8 @@ public class PPG_hrm extends Activity {
 
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "DoNotDimScreen");
+
+        titleBar();
     }
     //
     public void adjustViews(){
@@ -138,20 +139,42 @@ public class PPG_hrm extends Activity {
         explanation = (TextView)findViewById(R.id.explanation);
         cover_graph = (FrameLayout)findViewById(R.id.cover_graph);
         //
-        vm.resizeSingleView(fl_circle, "frame", 652, 652, 0, 270, 0, 0);
-        vm.reformSingleTextBasedView(context, unit, 42, "regular", "frame", 0, 0, 170, 50, 0, 0);
-        vm.reformSingleTextBasedView(context, explanation, 43, "regular", "frame", 0, 0, 0, 1500, 0, 0);
-        vm.reformSingleTextBasedView(context, bpm, 279, "har", "frame", 500, 600, 0, 0, 0, 0);
-        vm.resizeSingleView(heart, "frame", 69, 69, 170, 0, 0, 0);
-        vm.resizeSingleView(canvas, "frame", 1080, 400, 0, 1022, 0, 0);
+//        vm.resizeSingleView(fl_circle, "frame", 652, 652, 0, 270, 0, 0);
+//        vm.reformSingleTextBasedView(context, unit, 42, "regular", "frame", 0, 0, 170, 50, 0, 0);
+//        vm.reformSingleTextBasedView(context, explanation, 43, "regular", "frame", 0, 0, 0, 1500, 0, 0);
+//        vm.reformSingleTextBasedView(context, bpm, 279, "har", "frame", 500, 600, 0, 0, 0, 0);
+//        vm.resizeSingleView(heart, "frame", 69, 69, 170, 0, 0, 0);
+//        vm.resizeSingleView(canvas, "frame", 1080, 400, 0, 1022, 0, 0);
         //
         progress.setMax(59500);
         //
         disappearedToRight200 = AnimationUtils.loadAnimation(this, R.anim.disappear_to_right_500);
         // 161123
         ci = (TextView)findViewById(R.id.ci);
-        vm.reformSingleTextBasedView(context, ci, 36, "thin", "frame", 200, 0, 0, 0, 20, 150);
+//        vm.reformSingleTextBasedView(context, ci, 36, "thin", "frame", 200, 0, 0, 0, 20, 150);
     }
+
+    private void titleBar() {
+        View titlebar = (View) findViewById(R.id.title_bar);
+        TextView title = (TextView) titlebar.findViewById(R.id.tv_title);
+        ImageView back = (ImageView) titlebar.findViewById(R.id.iv_title_back);
+
+        title.setText("스트레스 측정");
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, PPG_measure.class);
+                startActivity(i);
+
+            }
+        });
+
+        ImageView menu = (ImageView) titlebar.findViewById(R.id.iv_titlebar_menu);
+        if (menu.getVisibility() != View.GONE)
+            menu.setVisibility(View.GONE);
+        
+    }
+
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {

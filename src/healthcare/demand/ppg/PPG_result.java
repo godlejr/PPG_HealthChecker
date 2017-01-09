@@ -38,8 +38,7 @@ public class PPG_result extends Activity {
     int bpm;
     int cardiacIntervalArrSize;
     ////////////////////////////////// VIEWS ////////////////////////////////
-    ViewMethod vm = new ViewMethod();
-    Views vs = new Views();
+
     Events evnts = new Events();
     //
     //

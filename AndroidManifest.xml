@@ -21,9 +21,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".PPG_measure" android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar"></activity>
+        <activity android:name=".PPG_measure" android:screenOrientation="portrait" android:theme="@android:style/Theme.Holo.NoActionBar"></activity>
         <activity android:name=".PPG_hrm" android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
         android:launchMode="singleInstance"></activity>
-        <activity android:name=".PPG_result" android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar"></activity>
+        <activity android:name=".PPG_result" android:screenOrientation="portrait" android:theme="@android:style/Theme.Holo.NoActionBar"></activity>
     </application>
 </manifest>

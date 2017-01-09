@@ -23,9 +23,9 @@ public class PPG_measure extends Activity {
      * Called when the activity is first created.
      */
 
-    ViewMethod vm = new ViewMethod();
+
     Events events = new Events();
-    Views vs = new Views();
+
     //
     Context context;
     //

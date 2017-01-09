@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent" android:background="#ffffff">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#ffffff">
     <!--<ScrollView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:id="@+id/sv"-->
-            <!--android:scrollbars="none" android:fadeScrollbars="false"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:id="@+id/sv"-->
+    <!--android:scrollbars="none" android:fadeScrollbars="false"-->
     <!--&gt;-->
 
     <include
@@ -15,198 +16,200 @@
         android:id="@+id/title_bar"/>
 
     <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginTop="45dp">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp">
 
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="자율신경균형(ANB)"
-                        android:id="@+id/anb" android:layout_gravity="right" android:textColor="#000000"
-                    android:gravity="right"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="20dp" />
-
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="0:100"
-                        android:id="@+id/ratio" android:layout_gravity="right" android:textColor="#000000"
-                    android:gravity="right"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="20dp" />
-            </LinearLayout>
-
-            <FrameLayout
-                    android:layout_width="match_parent"
-                android:id="@+id/fl_meter"
-                android:layout_height="170dp">
-                <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@drawable/gauge_back" />
-                <ImageView
-                        android:layout_width="438px"
-                        android:layout_height="49px"
-                        android:id="@+id/needle" android:layout_gravity="bottom"
-                        android:src="@drawable/gauge_meter" android:layout_marginLeft="126.5px"/>
-            </FrameLayout>
             <TextView
-                    android:layout_width="match_parent"
-                android:text="&quot;결과&quot;"
-                    android:id="@+id/conclusion" android:layout_gravity="center_horizontal" android:textColor="#4cb3b6"
-                    android:textSize="120px" android:gravity="center"
-                android:layout_height="50dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="자율신경균형(ANB)"
+                android:id="@+id/anb" android:layout_gravity="right" android:textColor="#000000"
+                android:gravity="right"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0:100"
+                android:id="@+id/ratio" android:layout_gravity="right" android:textColor="#000000"
+                android:gravity="right"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:id="@+id/fl_meter"
+            android:layout_height="170dp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/gauge_back" />
+            <ImageView
+                android:id="@+id/needle" android:layout_gravity="bottom"
+                android:src="@drawable/gauge_meter"
+                android:layout_height="20dp"
+                android:layout_width="155dp"
+                android:layout_marginLeft="40dp" />
+        </FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:text="&quot;결과&quot;"
+            android:id="@+id/conclusion" android:layout_gravity="center_horizontal" android:textColor="#4cb3b6"
+            android:textSize="30sp" android:gravity="center"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp">
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp">
+                android:layout_height="match_parent">
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"></LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:layout_gravity="center_horizontal"
+                    android:id="@+id/fl_0">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="교감신경 활성도(SNS)"
+                        android:id="@+id/tv_0" android:layout_gravity="center_vertical"
+                        android:textColor="#151515"
+                        android:textSize="12sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="LEVEL"
+                        android:id="@+id/result_0" android:layout_gravity="center_vertical|right"
+                        android:textSize="12sp" android:textColor="#000000"/>
+                </FrameLayout>
+
+                <SeekBar
+                    android:layout_width="match_parent"
+                    android:layout_height="5px"
+                    android:id="@+id/sb_0" android:layout_gravity="center_horizontal" android:thumb="@null"
+                    android:thumbOffset="0px" android:padding="0px"
+                    android:layout_marginTop="43px" android:layout_marginBottom="62px" android:maxHeight="4px"
+                    android:progressDrawable="@drawable/seekbar_progress_gry_grn_rt"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal" android:id="@+id/fl_1">
 
                     <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"></LinearLayout>
 
-                    <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" android:layout_gravity="center_horizontal"
-                            android:id="@+id/fl_0">
-                        <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="교감신경 활성도(SNS)"
-                                android:id="@+id/tv_0" android:layout_gravity="center_vertical"
-                            android:textColor="#151515"
-                            android:textSize="12sp" />
-                        <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="LEVEL"
-                                android:id="@+id/result_0" android:layout_gravity="center_vertical|right"
-                                android:textSize="12sp" android:textColor="#000000"/>
-                    </FrameLayout>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="부교감신경 활성도(PSNS)" android:id="@+id/tv_1"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="#151515"
+                        android:textSize="12sp" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="LEVEL"
+                        android:id="@+id/result_1" android:layout_gravity="center_vertical|right"
+                        android:textSize="12sp" android:textColor="#000000"/>
+                </FrameLayout>
 
-                    <SeekBar
-                            android:layout_width="match_parent"
-                            android:layout_height="5px"
-                            android:id="@+id/sb_0" android:layout_gravity="center_horizontal" android:thumb="@null"
-                            android:thumbOffset="0px" android:padding="0px"
-                            android:layout_marginTop="43px" android:layout_marginBottom="62px" android:maxHeight="4px"
-                            android:progressDrawable="@drawable/seekbar_progress_gry_grn_rt"/>
-                </LinearLayout>
+                <SeekBar android:layout_width="match_parent" android:layout_height="5px" android:id="@+id/sb_1"
+                    android:layout_gravity="center_horizontal" android:thumb="@null" android:thumbOffset="0px"
+                    android:padding="0px"
+                    android:layout_marginTop="43px" android:layout_marginBottom="62px" android:maxHeight="4px"
+                    android:progressDrawable="@drawable/seekbar_progress_gry_grn_rt"/>
 
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
-                                 android:layout_gravity="center_horizontal" android:id="@+id/fl_1">
-
-                        <LinearLayout
-                            android:orientation="vertical"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"></LinearLayout>
-
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:text="부교감신경 활성도(PSNS)" android:id="@+id/tv_1"
-                                  android:layout_gravity="center_vertical"
-                            android:textColor="#151515"
-                            android:textSize="12sp" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="LEVEL"
-                                  android:id="@+id/result_1" android:layout_gravity="center_vertical|right"
-                                  android:textSize="12sp" android:textColor="#000000"/>
-                    </FrameLayout>
-
-                    <SeekBar android:layout_width="match_parent" android:layout_height="5px" android:id="@+id/sb_1"
-                             android:layout_gravity="center_horizontal" android:thumb="@null" android:thumbOffset="0px"
-                             android:padding="0px"
-                             android:layout_marginTop="43px" android:layout_marginBottom="62px" android:maxHeight="4px"
-                             android:progressDrawable="@drawable/seekbar_progress_gry_grn_rt"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
-                                 android:layout_gravity="center_horizontal" android:id="@+id/fl_2">
-
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="LEVEL"
-                                  android:id="@+id/result_2" android:layout_gravity="center_vertical|right"
-                                  android:textSize="12sp" android:textColor="#000000"/>
-
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:text="자율신경 활성도(ANS)" android:id="@+id/tv_2"
-                                  android:layout_gravity="center_vertical"
-                            android:textColor="#151515"
-                            android:textSize="12sp" />
-                    </FrameLayout>
-
-                    <SeekBar android:layout_width="match_parent" android:layout_height="5px" android:id="@+id/sb_2"
-                             android:layout_gravity="center_horizontal" android:thumb="@null" android:thumbOffset="0px"
-                             android:padding="0px"
-                             android:layout_marginTop="43px" android:layout_marginBottom="62px" android:maxHeight="4px"
-                             android:progressDrawable="@drawable/seekbar_progress_gry_grn_rt"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
-                                 android:layout_gravity="center_horizontal" android:id="@+id/fl_3">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:text="심박변이도(HRV)" android:id="@+id/tv_3"
-                                  android:layout_gravity="center_vertical"
-                            android:textColor="#151515"
-                            android:textSize="12sp" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="LEVEL"
-                                  android:id="@+id/result_3" android:layout_gravity="center_vertical|right"
-                                  android:textSize="12sp" android:textColor="#000000"/>
-                    </FrameLayout>
-
-                    <SeekBar android:layout_width="match_parent" android:layout_height="5px" android:id="@+id/sb_3"
-                             android:layout_gravity="center_horizontal" android:thumb="@null" android:thumbOffset="0px"
-                             android:padding="0px"
-                             android:layout_marginTop="43px" android:layout_marginBottom="62px" android:maxHeight="4px"
-                             android:progressDrawable="@drawable/seekbar_progress_gry_grn_rt"/>
-                </LinearLayout>
             </LinearLayout>
 
-            <TextView
-                    android:layout_width="match_parent"
-                android:text="다시 측정하기"
-                    android:id="@+id/complete" android:layout_gravity="center_horizontal" android:gravity="center"
-                    android:textColor="#ffffff" android:textSize="16sp"
-                android:background="@drawable/ppg_startmeasure"
-                android:layout_height="35dp"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:layout_marginTop="20dp" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal" android:id="@+id/fl_2">
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="LEVEL"
+                        android:id="@+id/result_2" android:layout_gravity="center_vertical|right"
+                        android:textSize="12sp" android:textColor="#000000"/>
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="자율신경 활성도(ANS)" android:id="@+id/tv_2"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="#151515"
+                        android:textSize="12sp" />
+                </FrameLayout>
+
+                <SeekBar android:layout_width="match_parent" android:layout_height="5px" android:id="@+id/sb_2"
+                    android:layout_gravity="center_horizontal" android:thumb="@null" android:thumbOffset="0px"
+                    android:padding="0px"
+                    android:layout_marginTop="43px" android:layout_marginBottom="62px" android:maxHeight="4px"
+                    android:progressDrawable="@drawable/seekbar_progress_gry_grn_rt"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal" android:id="@+id/fl_3">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="심박변이도(HRV)" android:id="@+id/tv_3"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="#151515"
+                        android:textSize="12sp" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="LEVEL"
+                        android:id="@+id/result_3" android:layout_gravity="center_vertical|right"
+                        android:textSize="12sp" android:textColor="#000000"/>
+                </FrameLayout>
+
+                <SeekBar android:layout_width="match_parent" android:layout_height="5px" android:id="@+id/sb_3"
+                    android:layout_gravity="center_horizontal" android:thumb="@null" android:thumbOffset="0px"
+                    android:padding="0px"
+                    android:layout_marginTop="43px" android:layout_marginBottom="62px" android:maxHeight="4px"
+                    android:progressDrawable="@drawable/seekbar_progress_gry_grn_rt"/>
+            </LinearLayout>
         </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:text="다시 측정하기"
+            android:id="@+id/complete" android:layout_gravity="center_horizontal" android:gravity="center"
+            android:textColor="#ffffff" android:textSize="16sp"
+            android:background="@drawable/ppg_startmeasure"
+            android:layout_height="35dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="20dp" />
+    </LinearLayout>
 
     <!--</ScrollView>-->
 </FrameLayout>
