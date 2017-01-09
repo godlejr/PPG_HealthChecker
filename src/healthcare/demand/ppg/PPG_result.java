@@ -2,22 +2,26 @@ package healthcare.demand.ppg;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
-import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
-import android.widget.*;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.user.lxhrvapi.LXHrvAPI;
 
 import etc.Events;
 import etc.Server_Connector;
-import etc.ViewMethod;
-import etc.Views;
 
 public class PPG_result extends Activity {
     /**
@@ -39,7 +43,7 @@ public class PPG_result extends Activity {
     Events evnts = new Events();
     //
     //
-    ScrollView sv;
+
     TextView anb;
     TextView ratio;
     FrameLayout fl_meter;
@@ -72,13 +76,15 @@ public class PPG_result extends Activity {
         analysis();
 
         defineEvent();
+
+        titleBar();
     }
 
     private void adjustViews() {
         context = getApplicationContext();
         //
         //
-        sv = (ScrollView) findViewById(R.id.sv);
+
         anb = (TextView) findViewById(R.id.anb);
         ratio = (TextView) findViewById(R.id.ratio);
         fl_meter = (FrameLayout) findViewById(R.id.fl_meter);
@@ -87,23 +93,84 @@ public class PPG_result extends Activity {
         complete = (TextView) findViewById(R.id.complete);
         //
         //
-        vm.resizeSingleView(sv, "frame", 0, 0, 0, 0, 0, 0);
-        vm.reformSingleTextBasedView(context, anb, 30, "regular", "linear", 0, 0, 0, 50, 90, 10);
-        vm.reformSingleTextBasedView(context, ratio, 48, "bold", "linear", 0, 0, 0, 0, 90, 20);
-        vm.resizeSingleView(fl_meter, "linear", 1080, 492);
-        vm.resizeSingleView(needle, "frame", 438, 49, 126, 0, 0, 0);
-        vm.reformSingleTextBasedView(context, conclusion, 120, "light", "linear", 1080, 328); //// DEFAULT FONT SIZE 120
-        vm.reformSingleTextBasedView(context, complete, 43, "light", "linear", 653, 100, 0, 38, 0, 150); /////////////////////////////////
+//        vm.resizeSingleView(sv, "frame", 0, 0, 0, 0, 0, 0);
+//        vm.reformSingleTextBasedView(context, anb, 30, "regular", "linear", 0, 0, 0, 50, 90, 10);
+//        vm.reformSingleTextBasedView(context, ratio, 48, "bold", "linear", 0, 0, 0, 0, 90, 20);
+//        vm.resizeSingleView(fl_meter, "linear", 1080, 492);
+//        vm.resizeSingleView(needle, "frame", 438, 49, 126, 0, 0, 0);
+//        vm.reformSingleTextBasedView(context, conclusion, 120, "light", "linear", 1080, 328); //// DEFAULT FONT SIZE 120
+//        vm.reformSingleTextBasedView(context, complete, 43, "light", "linear", 653, 100, 0, 38, 0, 150); /////////////////////////////////
+//        //
+//        vm.reformMultipleTextView(this, context, "tv_", tv, new int[]{0, 1, 2, 3}, 30, "regular");
+//        vm.reformMultipleTextView(this, context, "result_", result, new int[]{0, 1, 2, 3}, 36, "bold");
+//        vm.resizeMultipleView(this, new int[]{0, 1, 2, 3}, "fl_", fl, "linear", 900, 0);
+//        vm.resizeMultipleView(this, new int[]{0, 1, 2, 3}, "sb_", sb, "linear", 900, 5, 0, 43, 0, 62);
         //
-        vm.reformMultipleTextView(this, context, "tv_", tv, new int[]{0, 1, 2, 3}, 30, "regular");
-        vm.reformMultipleTextView(this, context, "result_", result, new int[]{0, 1, 2, 3}, 36, "bold");
-        vm.resizeMultipleView(this, new int[]{0, 1, 2, 3}, "fl_", fl, "linear", 900, 0);
-        vm.resizeMultipleView(this, new int[]{0, 1, 2, 3}, "sb_", sb, "linear", 900, 5, 0, 43, 0, 62);
-        //
+
+
+        tv[0] = (TextView)findViewById(R.id.tv_0);
+        tv[1] = (TextView)findViewById(R.id.tv_1);
+        tv[2] = (TextView)findViewById(R.id.tv_2);
+        tv[3] = (TextView)findViewById(R.id.tv_3);
+
+        result[0] = (TextView)findViewById(R.id.result_0);
+        result[1] = (TextView)findViewById(R.id.result_1);
+        result[2] = (TextView)findViewById(R.id.result_2);
+        result[3] = (TextView)findViewById(R.id.result_3);
+
+
+        sb[0] = (SeekBar)findViewById(R.id.sb_0);
+        sb[1] = (SeekBar)findViewById(R.id.sb_1);
+        sb[2] = (SeekBar)findViewById(R.id.sb_2);
+        sb[3] = (SeekBar)findViewById(R.id.sb_3);
+
         sb[0].setMax(100);
         sb[1].setMax(100);
         sb[2].setMax(100);
         sb[3].setMax(180);
+    }
+
+    private void titleBar(){
+        View titlebar = (View)findViewById(R.id.title_bar);
+        TextView title = (TextView)titlebar.findViewById(R.id.tv_title);
+        ImageView back = (ImageView)titlebar.findViewById(R.id.iv_title_back);
+
+        title.setText("스트레스 측정");
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, PPG_measure.class);
+                startActivity(i);
+
+            }
+        });
+
+        titlebar.setBackgroundColor(Color.parseColor("#ffffff"));
+        ImageView menu = (ImageView)titlebar.findViewById(R.id.iv_titlebar_menu);
+        if(menu.getVisibility() == View.GONE)
+            menu.setVisibility(View.VISIBLE);
+
+        PopupMenu popupMenu = new PopupMenu(PPG_result.this, menu);
+        popupMenu.getMenuInflater().inflate(R.menu.menu_main, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch(item.getItemId()){
+                    case R.id.logout:
+                        Toast.makeText(PPG_result.this, "로그아웃", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return true;
+            }
+        });
+
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupMenu.show();
+            }
+        });
+
     }
 
     private void defineEvent() {

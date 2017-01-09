@@ -27,8 +27,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import etc.Events;
 import etc.ImageProcessing;
-import etc.ViewMethod;
-import etc.Views;
 
 public class PPG_hrm extends Activity {
 

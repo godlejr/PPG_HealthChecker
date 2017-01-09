@@ -17,8 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import etc.Events;
-import etc.ViewMethod;
-import etc.Views;
 
 public class PPG_measure extends Activity {
     /**

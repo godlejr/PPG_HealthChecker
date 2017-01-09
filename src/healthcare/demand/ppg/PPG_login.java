@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,8 +22,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import etc.Server_Connector;
-import etc.ViewMethod;
-import etc.Views;
 
 public class PPG_login extends Activity {
     /**
@@ -93,19 +90,19 @@ public class PPG_login extends Activity {
         login = (TextView) findViewById(R.id.login);
         //join = (TextView)findViewById(R.id.join); // NOT YET
         // VIEWS : READJUST & OPTIMIZATION
-        vm.resizeSingleView(splash, getResources(), R.drawable.ppg_demand, "frame", 345, 76);
-        vm.resizeSingleView(upper_logo, getResources(), R.drawable.ppg_logo, "linear", 1080, 989, 0, 80, 0, 0);
-        vm.reformSingleTextBasedView(context, tv_id, 42, "regular", "linear", 0, 0, 100, 0, 100, 0);
-        vm.reformSingleTextBasedView(context, tv_pw, 42, "regular", "linear", 0, 0, 100, 0, 100, 0);
-        vm.reformSingleTextBasedView(context, et_id, 40, "regular", "linear", 880, 70, 100, 0, 100, 0, 0, 0, 0, 0);
-        vm.reformSingleTextBasedView(context, et_pw, 40, "regular", "linear", 880, 70, 100, 0, 100, 0, 0, 0, 0, 0);
-        vm.resizeSingleView(line_0, "linear", 0, 0, 100, 0, 100, 50);
-        vm.resizeSingleView(line_1, "linear", 0, 0, 100, 0, 100, 20);
-        vm.resizeSingleView(ll_auto, "linear", 0, 0, 100, 0, 0, 0);
-        vm.resizeSingleView(checkbox, "linear", 60, 90);
-        vm.reformSingleTextBasedView(context, tv_auto, 36, "regular");
-        vm.reformSingleTextBasedView(context, login, 50, "bold", "frame", 880, 120, 0, 0, 0, 120);
-        vs.customBox(login, "#f5f5f5", "#444444", 60, 2);
+//        vm.resizeSingleView(splash, getResources(), R.drawable.ppg_demand, "frame", 345, 76);
+//        vm.resizeSingleView(upper_logo, getResources(), R.drawable.ppg_logo, "linear", 1080, 989, 0, 80, 0, 0);
+//        vm.reformSingleTextBasedView(context, tv_id, 42, "regular", "linear", 0, 0, 100, 0, 100, 0);
+//        vm.reformSingleTextBasedView(context, tv_pw, 42, "regular", "linear", 0, 0, 100, 0, 100, 0);
+//        vm.reformSingleTextBasedView(context, et_id, 40, "regular", "linear", 880, 70, 100, 0, 100, 0, 0, 0, 0, 0);
+//        vm.reformSingleTextBasedView(context, et_pw, 40, "regular", "linear", 880, 70, 100, 0, 100, 0, 0, 0, 0, 0);
+//        vm.resizeSingleView(line_0, "linear", 0, 0, 100, 0, 100, 50);
+//        vm.resizeSingleView(line_1, "linear", 0, 0, 100, 0, 100, 20);
+//        vm.resizeSingleView(ll_auto, "linear", 0, 0, 100, 0, 0, 0);
+//        vm.resizeSingleView(checkbox, "linear", 60, 90);
+//        vm.reformSingleTextBasedView(context, tv_auto, 36, "regular");
+//        vm.reformSingleTextBasedView(context, login, 50, "bold", "frame", 880, 120, 0, 0, 0, 120);
+//        vs.customBox(login, "#f5f5f5", "#444444", 60, 2);
         // ANIMS
         fade_in_1500 = AnimationUtils.loadAnimation(this, R.anim.fade_in_1500);
         fade_out_1500 = AnimationUtils.loadAnimation(this, R.anim.fade_out_1500);
