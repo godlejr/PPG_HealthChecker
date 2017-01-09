@@ -14,6 +14,7 @@ import healthcare.demand.ppg.R;
 public class Events {
 
 
+
     public void toastMessage(Context context, String str){
         Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
     }
