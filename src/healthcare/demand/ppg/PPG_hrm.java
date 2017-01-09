@@ -108,26 +108,41 @@ public class PPG_hrm extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hrm);
 
+
+
+        adjustViews();
+        mentEvent();
+        titleBar();
+
+    }
+
+    private void titleBar(){
+        View titlebar = (View)findViewById(R.id.title_bar);
+        TextView title = (TextView)titlebar.findViewById(R.id.tv_title);
+        ImageView back = (ImageView)titlebar.findViewById(R.id.iv_title_back);
+
+        title.setText("스트레스 측정 (맥파/호흡)");
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, PPG_measure.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
+        ImageView menu = (ImageView)titlebar.findViewById(R.id.iv_titlebar_menu);
+        menu.setVisibility(View.GONE);
+    }
+
+    public void adjustViews(){
+
         c = getBaseContext();
         activity = this;
         id = getIntent().getStringExtra("id");
         name = getIntent().getStringExtra("name");
 
-        adjustViews();
-        mentEvent();
 
-        preview = (SurfaceView) findViewById(R.id.preview);
-        previewHolder = preview.getHolder();
-        previewHolder.addCallback(surfaceCallback);
-        previewHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-
-        image = findViewById(R.id.image);
-
-        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "DoNotDimScreen");
-    }
-    //
-    public void adjustViews(){
         context = getApplicationContext();
         //
         mask = (FrameLayout)findViewById(R.id.mask);
@@ -140,19 +155,30 @@ public class PPG_hrm extends Activity {
         explanation = (TextView)findViewById(R.id.explanation);
         cover_graph = (FrameLayout)findViewById(R.id.cover_graph);
         //
-        vm.resizeSingleView(fl_circle, "frame", 652, 652, 0, 270, 0, 0);
-        vm.reformSingleTextBasedView(context, unit, 42, "regular", "frame", 0, 0, 170, 50, 0, 0);
-        vm.reformSingleTextBasedView(context, explanation, 43, "regular", "frame", 0, 0, 0, 1500, 0, 0);
-        vm.reformSingleTextBasedView(context, bpm, 279, "har", "frame", 500, 600, 0, 0, 0, 0);
-        vm.resizeSingleView(heart, "frame", 69, 69, 170, 0, 0, 0);
-        vm.resizeSingleView(canvas, "frame", 1080, 400, 0, 1022, 0, 0);
+//        vm.resizeSingleView(fl_circle, "frame", 652, 652, 0, 270, 0, 0);
+//        vm.reformSingleTextBasedView(context, unit, 42, "regular", "frame", 0, 0, 170, 50, 0, 0);
+//        vm.reformSingleTextBasedView(context, explanation, 43, "regular", "frame", 0, 0, 0, 1500, 0, 0);
+//        vm.reformSingleTextBasedView(context, bpm, 279, "har", "frame", 500, 600, 0, 0, 0, 0);
+//        vm.resizeSingleView(heart, "frame", 69, 69, 170, 0, 0, 0);
+//        vm.resizeSingleView(canvas, "frame", 1080, 400, 0, 1022, 0, 0);
         //
         progress.setMax(59500);
         //
         disappearedToRight200 = AnimationUtils.loadAnimation(this, R.anim.disappear_to_right_500);
         // 161123
         ci = (TextView)findViewById(R.id.ci);
-        vm.reformSingleTextBasedView(context, ci, 36, "thin", "frame", 200, 0, 0, 0, 20, 150);
+       // vm.reformSingleTextBasedView(context, ci, 36, "thin", "frame", 200, 0, 0, 0, 20, 150);
+
+
+        preview = (SurfaceView) findViewById(R.id.preview);
+        previewHolder = preview.getHolder();
+        previewHolder.addCallback(surfaceCallback);
+        previewHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+
+        image = findViewById(R.id.image);
+
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "DoNotDimScreen");
     }
 
     @Override
@@ -267,6 +293,7 @@ public class PPG_hrm extends Activity {
                                 public void run() {
                                     Intent intent = new Intent(c, PPG_result.class);
                                     intent.putExtra("ci", cardiacIntervalArr);
+                                    Log.e("ci", cardiacIntervalArr.toString());
                                     intent.putExtra("bpm", heartRate);
                                     intent.putExtra("length", cardiacIntervalIndex - 1);
                                     intent.putExtra("id", id);

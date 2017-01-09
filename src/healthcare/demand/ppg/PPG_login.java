@@ -8,10 +8,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,7 +45,7 @@ public class PPG_login extends Activity {
     ImageView checkbox;
     TextView tv_auto;
     //TextView tv_find; // NOT YET
-    TextView login;
+    Button login;
     //TextView join; // NOT YET
 
     // ANIMS
@@ -88,22 +88,23 @@ public class PPG_login extends Activity {
         checkbox = (ImageView)findViewById(R.id.checkbox);
         tv_auto = (TextView)findViewById(R.id.tv_auto);
         //tv_find = (TextView)findViewById(R.id.tv_find); // NOT YET
-        login = (TextView)findViewById(R.id.login);
+        login = (Button)findViewById(R.id.login);
         //join = (TextView)findViewById(R.id.join); // NOT YET
-        // VIEWS : READJUST & OPTIMIZATION
-        vm.resizeSingleView(splash, getResources(), R.drawable.ppg_demand, "frame", 345, 76);
-        vm.resizeSingleView(upper_logo, getResources(), R.drawable.ppg_logo, "linear", 1080, 989, 0, 80, 0, 0);
-        vm.reformSingleTextBasedView(context, tv_id, 42, "regular", "linear", 0, 0, 100, 0, 100, 0);
-        vm.reformSingleTextBasedView(context, tv_pw, 42, "regular", "linear", 0, 0, 100, 0, 100, 0);
-        vm.reformSingleTextBasedView(context, et_id, 40, "regular", "linear", 880, 70, 100, 0, 100, 0, 0, 0, 0, 0);
-        vm.reformSingleTextBasedView(context, et_pw, 40, "regular", "linear", 880, 70, 100, 0, 100, 0, 0, 0, 0, 0);
-        vm.resizeSingleView(line_0, "linear", 0, 0, 100, 0, 100, 50);
-        vm.resizeSingleView(line_1, "linear", 0, 0, 100, 0, 100, 20);
-        vm.resizeSingleView(ll_auto, "linear", 0, 0, 100, 0, 0, 0);
-        vm.resizeSingleView(checkbox, "linear", 60, 90);
-        vm.reformSingleTextBasedView(context, tv_auto, 36, "regular");
-        vm.reformSingleTextBasedView(context, login, 50, "bold", "frame", 880, 120, 0, 0, 0, 120);
-        vs.customBox(login, "#f5f5f5", "#444444", 60, 2);
+//         VIEWS : READJUST & OPTIMIZATION
+//        vm.resizeSingleView(splash, getResources(), R.drawable.ppg_demand, "frame", 345, 76);
+//        vm.resizeSingleView(upper_logo, getResources(), R.drawable.ppg_logo, "linear", 1080, 989, 0, 80, 0, 0);
+//        vm.reformSingleTextBasedView(context, tv_id, 42, "regular", "linear", 0, 0, 100, 0, 100, 0);
+//        vm.reformSingleTextBasedView(context, tv_pw, 42, "regular", "linear", 0, 0, 100, 0, 100, 0);
+//        vm.reformSingleTextBasedView(context, et_id, 40, "regular", "linear", 880, 70, 100, 0, 100, 0, 0, 0, 0, 0);
+//        vm.reformSingleTextBasedView(context, et_pw, 40, "regular", "linear", 880, 70, 100, 0, 100, 0, 0, 0, 0, 0);
+//        vm.resizeSingleView(line_0, "linear", 0, 0, 100, 0, 100, 50);
+//        vm.resizeSingleView(line_1, "linear", 0, 0, 100, 0, 100, 20);
+//        vm.resizeSingleView(ll_auto, "linear", 0, 0, 100, 0, 0, 0);
+//        vm.resizeSingleView(checkbox, "linear", 60, 90);
+//        vm.reformSingleTextBasedView(context, tv_auto, 36, "regular");
+//        vm.reformSingleTextBasedView(context, login, 50, "bold", "frame", 880, 120, 0, 0, 0, 120);
+//        vs.customBox(login, "#f5f5f5", "#444444", 60, 2);
+
         // ANIMS
         fade_in_1500 = AnimationUtils.loadAnimation(this, R.anim.fade_in_1500);
         fade_out_1500 = AnimationUtils.loadAnimation(this, R.anim.fade_out_1500);
@@ -127,27 +128,34 @@ public class PPG_login extends Activity {
             }
         });
 
-        ll_login.setOnTouchListener(new View.OnTouchListener() {
+        login.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()){
-                    case MotionEvent.ACTION_DOWN :
-                        login.setTextColor(Color.parseColor("#f5f5f5"));
-                        vs.customBox(login, "#444444", "#444444", 60, 2);
-                        break;
-                    case MotionEvent.ACTION_CANCEL :
-                        login.setTextColor(Color.parseColor("#444444"));
-                        vs.customBox(login, "#f5f5f5", "#444444", 60, 2);
-                        break;
-                    case MotionEvent.ACTION_UP :
-                        login.setTextColor(Color.parseColor("#444444"));
-                        vs.customBox(login, "#f5f5f5", "#444444", 60, 2);
-                        login();
-                        break;
-                }
-                return true;
+            public void onClick(View v) {
+                login();
             }
         });
+
+//        ll_login.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                switch (event.getAction()){
+//                    case MotionEvent.ACTION_DOWN :
+//                        login.setTextColor(Color.parseColor("#f5f5f5"));
+//                        vs.customBox(login, "#444444", "#444444", 60, 2);
+//                        break;
+//                    case MotionEvent.ACTION_CANCEL :
+//                        login.setTextColor(Color.parseColor("#444444"));
+//                        vs.customBox(login, "#f5f5f5", "#444444", 60, 2);
+//                        break;
+//                    case MotionEvent.ACTION_UP :
+//                        login.setTextColor(Color.parseColor("#444444"));
+//                        vs.customBox(login, "#f5f5f5", "#444444", 60, 2);
+//                        login();
+//                        break;
+//                }
+//                return true;
+//            }
+//        });
     }
 
     private void splashEvent(){
