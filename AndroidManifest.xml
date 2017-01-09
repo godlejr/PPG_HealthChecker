@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="healthcare.demand.ppg"
+          android:versionCode="2"
+          android:versionName="1.1">
+    <uses-sdk android:minSdkVersion="15"/>
+
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.flash"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application android:label="@string/app_name" android:icon="@drawable/ic_launcher" android:largeHeap="true">
+        <activity android:name="PPG_login"
+                  android:label="@string/app_name"
+                  android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".PPG_measure" android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar"></activity>
+        <activity android:name=".PPG_hrm" android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+        <activity android:name=".PPG_result" android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar"></activity>
+    </application>
+</manifest>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+             android:background="#f5f5f5">
+    <ImageView
+            android:layout_width="345px"
+            android:layout_height="76px"
+            android:id="@+id/splash" android:layout_gravity="center" android:src="@drawable/ppg_demand"
+            android:visibility="visible"/>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:id="@+id/ll_login" android:visibility="gone">
+        <ImageView
+                android:layout_width="1080px"
+                android:layout_height="989px"
+                android:id="@+id/upper_logo" android:layout_gravity="center_horizontal"
+                android:src="@drawable/ppg_logo"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ID"
+                android:id="@+id/tv_id" android:layout_marginLeft="100px" android:layout_marginRight="100px"
+                android:textColor="#858585" android:textSize="42px"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="70px"
+                android:id="@+id/et_id" android:background="@null" android:layout_marginLeft="100px"
+                android:layout_marginRight="100px" android:textColorHint="#b4bdc2"
+                android:textSize="45px" android:gravity="left|center_vertical" android:textColor="#4CA9B1"
+                android:inputType="textVisiblePassword"
+                android:imeOptions="flagNoExtractUi"/>
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/line_0"
+                android:src="@drawable/underline_grey" android:layout_marginLeft="100px"
+                android:layout_marginRight="100px" android:layout_marginBottom="30px"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Password"
+                  android:id="@+id/tv_pw" android:layout_marginLeft="100px" android:layout_marginRight="100px"
+                  android:textColor="#858585" android:textSize="42px"/>
+        <EditText android:layout_width="match_parent" android:layout_height="70px" android:id="@+id/et_pw"
+                  android:background="@null" android:layout_marginLeft="100px" android:layout_marginRight="100px"
+                  android:textColorHint="#b4bdc2" android:inputType="textPassword" android:ems="10"
+                  android:imeOptions="flagNoExtractUi" android:textColor="#4CA9B1" android:textSize="45px"
+                  android:gravity="left|center_vertical"/>
+        <ImageView android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/line_1"
+                   android:src="@drawable/underline_grey"
+                   android:layout_marginLeft="100px" android:layout_marginRight="100px"
+                   android:layout_marginBottom="20px"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100px" android:layout_marginBottom="100px" android:id="@+id/ll_auto">
+            <ImageView
+                    android:layout_width="60px"
+                    android:layout_height="90px"
+                    android:id="@+id/checkbox" android:src="@drawable/check_0"
+                    android:layout_gravity="center_vertical"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="자동 로그인"
+                    android:id="@+id/tv_auto" android:textColor="#858585" android:layout_gravity="center_vertical"
+                    android:textSize="40px"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="아이디/암호찾기"
+                    android:id="@+id/tv_find" android:visibility="gone" android:layout_gravity="center_vertical"/>
+        </LinearLayout>
+        <TextView
+                android:layout_width="880px"
+                android:layout_height="120px"
+                android:text="회원가입"
+                android:id="@+id/join" android:layout_gravity="center_horizontal" android:textColor="#444444"
+                android:textSize="50px" android:gravity="center" android:visibility="gone"/>
+    </LinearLayout>
+    <TextView
+            android:layout_width="880px"
+            android:layout_height="120px"
+            android:text="로그인"
+            android:id="@+id/login" android:layout_gravity="bottom|center_horizontal" android:textColor="#444444"
+            android:textSize="50px" android:gravity="center" android:layout_marginBottom="120px"
+            android:visibility="gone"/>
+</FrameLayout>
+

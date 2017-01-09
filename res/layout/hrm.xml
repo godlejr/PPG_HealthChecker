@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			 android:layout_width="fill_parent"
+			 android:layout_height="fill_parent">
+
+	<SurfaceView android:id="@+id/preview"
+				 android:layout_weight="1"
+				 android:layout_width="match_parent"
+				 android:layout_height="match_parent" android:layout_marginTop="150px">
+	</SurfaceView>
+	<FrameLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent" android:id="@+id/mask" android:background="#f5f5f5">
+	</FrameLayout>
+
+	<FrameLayout
+			android:layout_width="652px"
+			android:layout_height="652px" android:layout_gravity="center_horizontal|top"
+			android:layout_marginTop="270px" android:id="@+id/fl_circle" android:background="@drawable/circular">
+		<ProgressBar
+				style="?android:attr/progressBarStyleHorizontal"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:id="@+id/progress" android:progressDrawable="@drawable/progress_bar"/>
+		<TextView
+				android:layout_width="450px"
+				android:layout_height="600px"
+				android:text="0 "
+				android:id="@+id/bpm" android:layout_gravity="center_vertical"
+				android:textColor="#4cb3b6" android:textSize="279px"
+				android:gravity="center_vertical|right"/>
+		<ImageView
+				android:layout_width="69px"
+				android:layout_height="69px"
+				android:id="@+id/heart" android:layout_marginLeft="150px" android:layout_gravity="center"
+				android:src="@drawable/heart_small"/>
+		<etc.HeartBeatView android:id="@+id/image"
+						   android:layout_centerInParent="true"
+						   android:layout_width="69px"
+						   android:layout_height="69px" android:layout_gravity="center"
+						   android:layout_marginLeft="150px" android:visibility="gone">
+		</etc.HeartBeatView>
+
+		<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="bpm"
+				android:id="@+id/unit" android:layout_gravity="center" android:layout_marginTop="75px"
+				android:textSize="42px" android:textColor="#4cb3b6" android:layout_marginLeft="150px"
+		/>
+		<TextView android:layout_width="200px" android:layout_height="wrap_content" android:text="0 msec"
+				  android:id="@+id/ci" android:layout_gravity="center_horizontal|bottom" android:textColor="#898989"
+				  android:textSize="36px" android:gravity="right" android:layout_marginBottom="150px"/>
+
+
+	</FrameLayout>
+	<FrameLayout
+			android:layout_width="match_parent"
+			android:layout_height="422px" android:layout_marginTop="950px" android:id="@+id/canvas"
+			android:background="@drawable/graph">
+		<FrameLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent" android:layout_gravity="center" android:background="#f5f5f5"
+				android:id="@+id/cover_graph">
+		</FrameLayout>
+	</FrameLayout>
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="빛을 이용하여\n맥파를 측정합니다."
+			android:id="@+id/explanation" android:gravity="center" android:layout_gravity="center_horizontal"
+			android:layout_marginTop="1450px" android:textColor="#4cb3b6" android:textSize="43px"
+	/>
+
+
+</FrameLayout>
