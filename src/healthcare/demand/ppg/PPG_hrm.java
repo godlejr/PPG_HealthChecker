@@ -110,7 +110,7 @@ public class PPG_hrm extends Activity {
 
         c = getBaseContext();
         activity = this;
-        id = getIntent().getStringExtra("id");
+        id= getIntent().getStringExtra("id");
         name = getIntent().getStringExtra("name");
 
         adjustViews();
@@ -262,9 +262,12 @@ public class PPG_hrm extends Activity {
                             isDone.set(true);
                             explanation.setText("측정이 완료되었습니다!");
                             Handler initHd = new Handler();
+                            Log.e("adfadfa","아시발");
                             initHd.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
+
+                                    Log.e("adfadfa","1213121231212312");
                                     Intent intent = new Intent(c, PPG_result.class);
                                     intent.putExtra("ci", cardiacIntervalArr);
                                     intent.putExtra("bpm", heartRate);

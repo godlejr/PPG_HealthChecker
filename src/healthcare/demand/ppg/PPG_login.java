@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,7 +22,7 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import etc.PHPReader;
+import etc.Server_Connector;
 import etc.ViewMethod;
 import etc.Views;
 
@@ -52,12 +53,13 @@ public class PPG_login extends Activity {
     Animation fade_in_1500, fade_out_1500;
 
     // SERVER & PREFERENCES
-    PHPReader php;
-    String id, pwd;
+    Server_Connector connector;
+
+    String email, pwd; //request
     SharedPreferences loginInfo;
     SharedPreferences.Editor editor;
     String pref_id, pref_pw;
-    String name;
+    String id, name; //response
     boolean isChecked = false;
 
     @Override
@@ -71,24 +73,24 @@ public class PPG_login extends Activity {
         defineEvent();
     }
 
-    private void adjustViews(){
+    private void adjustViews() {
 
         context = getApplicationContext();
         // VIEWS : DEFINE
-        splash = (ImageView)findViewById(R.id.splash);
-        ll_login = (LinearLayout)findViewById(R.id.ll_login);
-        upper_logo = (ImageView)findViewById(R.id.upper_logo);
-        tv_id = (TextView)findViewById(R.id.tv_id);
-        tv_pw = (TextView)findViewById(R.id.tv_pw);
-        et_id = (EditText)findViewById(R.id.et_id);
-        et_pw = (EditText)findViewById(R.id.et_pw);
-        line_0 = (ImageView)findViewById(R.id.line_0);
-        line_1 = (ImageView)findViewById(R.id.line_1);
-        ll_auto = (LinearLayout)findViewById(R.id.ll_auto);
-        checkbox = (ImageView)findViewById(R.id.checkbox);
-        tv_auto = (TextView)findViewById(R.id.tv_auto);
+        splash = (ImageView) findViewById(R.id.splash);
+        ll_login = (LinearLayout) findViewById(R.id.ll_login);
+        upper_logo = (ImageView) findViewById(R.id.upper_logo);
+        tv_id = (TextView) findViewById(R.id.tv_id);
+        tv_pw = (TextView) findViewById(R.id.tv_pw);
+        et_id = (EditText) findViewById(R.id.et_id);
+        et_pw = (EditText) findViewById(R.id.et_pw);
+        line_0 = (ImageView) findViewById(R.id.line_0);
+        line_1 = (ImageView) findViewById(R.id.line_1);
+        ll_auto = (LinearLayout) findViewById(R.id.ll_auto);
+        checkbox = (ImageView) findViewById(R.id.checkbox);
+        tv_auto = (TextView) findViewById(R.id.tv_auto);
         //tv_find = (TextView)findViewById(R.id.tv_find); // NOT YET
-        login = (TextView)findViewById(R.id.login);
+        login = (TextView) findViewById(R.id.login);
         //join = (TextView)findViewById(R.id.join); // NOT YET
         // VIEWS : READJUST & OPTIMIZATION
         vm.resizeSingleView(splash, getResources(), R.drawable.ppg_demand, "frame", 345, 76);
@@ -109,17 +111,16 @@ public class PPG_login extends Activity {
         fade_out_1500 = AnimationUtils.loadAnimation(this, R.anim.fade_out_1500);
     }
 
-    private void defineEvent(){
+    private void defineEvent() {
 
         ll_auto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isChecked == false){
+                if (isChecked == false) {
                     isChecked = true;
                     checkbox.setImageResource(R.drawable.check_1);
                     tv_auto.setTextColor(Color.parseColor("#444444"));
-                }
-                else if(isChecked == true){
+                } else if (isChecked == true) {
                     isChecked = false;
                     checkbox.setImageResource(R.drawable.check_0);
                     tv_auto.setTextColor(Color.parseColor("#858585"));
@@ -130,16 +131,16 @@ public class PPG_login extends Activity {
         ll_login.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()){
-                    case MotionEvent.ACTION_DOWN :
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
                         login.setTextColor(Color.parseColor("#f5f5f5"));
                         vs.customBox(login, "#444444", "#444444", 60, 2);
                         break;
-                    case MotionEvent.ACTION_CANCEL :
+                    case MotionEvent.ACTION_CANCEL:
                         login.setTextColor(Color.parseColor("#444444"));
                         vs.customBox(login, "#f5f5f5", "#444444", 60, 2);
                         break;
-                    case MotionEvent.ACTION_UP :
+                    case MotionEvent.ACTION_UP:
                         login.setTextColor(Color.parseColor("#444444"));
                         vs.customBox(login, "#f5f5f5", "#444444", 60, 2);
                         login();
@@ -150,7 +151,7 @@ public class PPG_login extends Activity {
         });
     }
 
-    private void splashEvent(){
+    private void splashEvent() {
         final Handler hd = new Handler();
         splash.startAnimation(fade_in_1500);
         hd.postDelayed(new Runnable() {
@@ -177,28 +178,28 @@ public class PPG_login extends Activity {
         }, 1000);
     }
 
-    public void login(){
-        id = et_id.getText().toString();
+    public void login() {
+        email = et_id.getText().toString();
         pwd = et_pw.getText().toString();
+        String url = getString(R.string.server_url);
 
-        php = new PHPReader();
-        php.addVariable("id", id);
-        php.addVariable("password", pwd);
-        php.addVariable("dbName", "ppg");
-        php.execute("http://1.234.63.165/h2ov2/login.php");
+        connector = new Server_Connector();
+        connector.addVariable("email", email);
+        connector.addVariable("password", pwd);
+        connector.execute(url + "login");
 
-        try{
-            if(php.get().trim().equalsIgnoreCase("No Such User Found")){
+        try {
+            JSONArray arr = new JSONArray(connector.get().trim());
+            if (arr.length() == 0) {
                 Toast.makeText(context, "ID/PW를 확인해주세요", Toast.LENGTH_SHORT).show();
-            }else{
+            } else {
                 Toast.makeText(context, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
 
-                JSONObject root = new JSONObject(php.get().trim());
-                JSONArray ja = root.getJSONArray("results");
 
-                for(int i = 0; i < ja.length(); i++){
-                    JSONObject jo = ja.getJSONObject(i);
-                    name = jo.getString("name");
+                for (int i = 0; i < arr.length(); i++) {
+                    JSONObject obj = arr.getJSONObject(i);
+                    id = String.valueOf(obj.getInt("id"));
+                    name = obj.getString("name");
                 }
 
                 Intent intent = new Intent(PPG_login.this, PPG_measure.class);
@@ -208,10 +209,11 @@ public class PPG_login extends Activity {
                 finish();
                 overridePendingTransition(R.anim.appear_from_right_300, R.anim.disappear_to_left_300);
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
@@ -220,7 +222,8 @@ public class PPG_login extends Activity {
         }
         return false;
     }
-    private void firstView(){
+
+    private void firstView() {
         loginInfo = getSharedPreferences("loginInfo", Activity.MODE_PRIVATE);
 
         pref_id = loginInfo.getString("et_id", "");
@@ -233,17 +236,15 @@ public class PPG_login extends Activity {
         checkBox();
     }
 
-    public void onStop(){
+    public void onStop() {
         super.onStop();
         loginInfo = getSharedPreferences("loginInfo", Activity.MODE_PRIVATE);
         editor = loginInfo.edit();
-        if(isChecked == true) {
+        if (isChecked == true) {
             editor.putString("et_id", et_id.getText().toString());
             editor.putString("et_pw", et_pw.getText().toString());
             editor.putBoolean("isChecked", true);
-        }
-
-        else if(isChecked == false){
+        } else if (isChecked == false) {
             String none = "";
             editor.putString("et_id", none);
             editor.putString("et_pw", none);
@@ -252,8 +253,8 @@ public class PPG_login extends Activity {
         editor.commit();
     }
 
-    public void checkBox(){
-        if(isChecked == false) checkbox.setImageResource(R.drawable.check_0);
-        else if(isChecked == true) checkbox.setImageResource(R.drawable.check_1);
+    public void checkBox() {
+        if (isChecked == false) checkbox.setImageResource(R.drawable.check_0);
+        else if (isChecked == true) checkbox.setImageResource(R.drawable.check_1);
     }
 }
