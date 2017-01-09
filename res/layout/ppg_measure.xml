@@ -1,31 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
-             android:layout_height="match_parent" android:background="#f5f5f5">
+             android:layout_height="match_parent" android:background="#f5f5f5"
+    android:orientation="vertical">
+
+    <include
+        android:layout_width="match_parent"
+        layout="@layout/titlebar"
+        android:id="@+id/title_bar"
+        android:layout_height="50dp" />
 
     <FrameLayout
-            android:layout_width="652px"
-            android:layout_height="652px" android:layout_gravity="center_horizontal|top"
-            android:layout_marginTop="250px" android:id="@+id/fl_circle" android:background="@drawable/wht_circle">
+        android:layout_height="0dp" android:layout_gravity="center_horizontal|top"
+        android:id="@+id/fl_circle"
+        android:layout_weight="1.5"
+        android:layout_marginTop="70dp"
+        android:layout_width="170dp">
         <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/camlight" android:src="@drawable/camlight" android:visibility="visible"/>
+                android:id="@+id/camlight" android:src="@drawable/camlight" />
 
 
     </FrameLayout>
     <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:text="검지의 끝 부분을 카메라와 조명에\n 가볍게 올리고 측정하세요.\n\n측정 시, 움직이거나 말은 하지 마세요."
             android:id="@+id/how" android:layout_gravity="center_horizontal|top"
-            android:layout_marginTop="1100px" android:gravity="center" android:textColor="#4cb3b6"
-            android:textSize="43px" android:visibility="visible"/>
-    <TextView
-            android:layout_width="653px"
-            android:layout_height="100px"
-            android:text="측정하기"
+        android:textColor="#4cb3b6"
+        android:visibility="visible"
+        android:layout_weight="1.5"
+        android:textSize="18sp"
+        android:gravity="top"
+        android:paddingTop="20dp" />
+
+    <Button
+        android:text="측정하기"
             android:id="@+id/measure" android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginBottom="150px" android:textSize="43px" android:textColor="#ffffff"
-            android:gravity="center" android:visibility="visible" android:background="@drawable/ppg_startmeasure"/>
-</FrameLayout>
+        android:textColor="#ffffff"
+            android:gravity="center" android:visibility="visible" android:background="@drawable/round_corner"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="60dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:textSize="18sp" />
+</LinearLayout>
