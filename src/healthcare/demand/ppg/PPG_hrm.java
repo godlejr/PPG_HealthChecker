@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -21,11 +20,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import etc.Events;
 import etc.ImageProcessing;
 
 public class PPG_hrm extends Activity {
@@ -37,7 +36,6 @@ public class PPG_hrm extends Activity {
     private static SurfaceHolder previewHolder = null;
     private static Camera camera = null;
     private static View image = null;
-    private static TextView text = null;
 
     private static WakeLock wakeLock = null;
 
@@ -47,7 +45,9 @@ public class PPG_hrm extends Activity {
 
     public static enum TYPE {
         GREEN, RED
-    };
+    }
+
+    ;
 
     private static TYPE currentType = TYPE.GREEN;
 
@@ -76,12 +76,8 @@ public class PPG_hrm extends Activity {
     //
     /////////////////////////////// VIEWS ///////////////////////////////////
 
-    Events evnts = new Events();
-    //
     Context context;
-    //
-    FrameLayout mask;
-    FrameLayout fl_circle;
+
     static public ProgressBar progress;
     static public TextView bpm;
     static public ImageView heart;
@@ -99,6 +95,7 @@ public class PPG_hrm extends Activity {
     // 161123
     public static TextView ci;
 
+    long backPressedTime = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -107,7 +104,7 @@ public class PPG_hrm extends Activity {
 
         c = getBaseContext();
         activity = this;
-        id= getIntent().getStringExtra("id");
+        id = getIntent().getStringExtra("id");
         name = getIntent().getStringExtra("name");
 
         adjustViews();
@@ -125,33 +122,23 @@ public class PPG_hrm extends Activity {
 
         titleBar();
     }
+
     //
-    public void adjustViews(){
+    public void adjustViews() {
         context = getApplicationContext();
-        //
-        mask = (FrameLayout)findViewById(R.id.mask);
-        fl_circle = (FrameLayout)findViewById(R.id.fl_circle);
-        progress = (ProgressBar)findViewById(R.id.progress);
-        bpm = (TextView)findViewById(R.id.bpm);
-        heart = (ImageView)findViewById(R.id.heart);
-        unit = (TextView)findViewById(R.id.unit);
-        canvas = (FrameLayout)findViewById(R.id.canvas);
-        explanation = (TextView)findViewById(R.id.explanation);
-        cover_graph = (FrameLayout)findViewById(R.id.cover_graph);
-        //
-//        vm.resizeSingleView(fl_circle, "frame", 652, 652, 0, 270, 0, 0);
-//        vm.reformSingleTextBasedView(context, unit, 42, "regular", "frame", 0, 0, 170, 50, 0, 0);
-//        vm.reformSingleTextBasedView(context, explanation, 43, "regular", "frame", 0, 0, 0, 1500, 0, 0);
-//        vm.reformSingleTextBasedView(context, bpm, 279, "har", "frame", 500, 600, 0, 0, 0, 0);
-//        vm.resizeSingleView(heart, "frame", 69, 69, 170, 0, 0, 0);
-//        vm.resizeSingleView(canvas, "frame", 1080, 400, 0, 1022, 0, 0);
-        //
+        progress = (ProgressBar) findViewById(R.id.progress);
+        bpm = (TextView) findViewById(R.id.bpm);
+        heart = (ImageView) findViewById(R.id.heart);
+        unit = (TextView) findViewById(R.id.unit);
+        canvas = (FrameLayout) findViewById(R.id.canvas);
+        explanation = (TextView) findViewById(R.id.explanation);
+        cover_graph = (FrameLayout) findViewById(R.id.cover_graph);
+
         progress.setMax(59500);
         //
         disappearedToRight200 = AnimationUtils.loadAnimation(this, R.anim.disappear_to_right_500);
         // 161123
-        ci = (TextView)findViewById(R.id.ci);
-//        vm.reformSingleTextBasedView(context, ci, 36, "thin", "frame", 200, 0, 0, 0, 20, 150);
+        ci = (TextView) findViewById(R.id.ci);
     }
 
     private void titleBar() {
@@ -159,20 +146,23 @@ public class PPG_hrm extends Activity {
         TextView title = (TextView) titlebar.findViewById(R.id.tv_title);
         ImageView back = (ImageView) titlebar.findViewById(R.id.iv_title_back);
 
-        title.setText("스트레스 측정");
+        back.setVisibility(View.VISIBLE);
+
+        title.setText("스트레스 측정 (맥파/호흡)");
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, PPG_measure.class);
                 startActivity(i);
-
+                overridePendingTransition(R.anim.appear_from_right_300, R.anim.disappear_to_left_300);
+                finish();
             }
         });
 
         ImageView menu = (ImageView) titlebar.findViewById(R.id.iv_titlebar_menu);
         if (menu.getVisibility() != View.GONE)
             menu.setVisibility(View.GONE);
-        
+
     }
 
 
@@ -253,13 +243,13 @@ public class PPG_hrm extends Activity {
 
                     // CALCULATE THE CARDIAC INTERVAL WHEN COUNT OF 'beats' INCREASED
                     //// SET THE UPPER LIMITATION 1200
-                    updatedCardiacInterval = (int)System.currentTimeMillis();
+                    updatedCardiacInterval = (int) System.currentTimeMillis();
 
                     tmpInterval = updatedCardiacInterval - formerCardiacInterval;
 
                     formerCardiacInterval = updatedCardiacInterval;
 
-                    if(tmpInterval > 333 && tmpInterval < 1200) { //**
+                    if (tmpInterval > 333 && tmpInterval < 1200) { //**
 
                         cardiacIntervalArr[cardiacIntervalIndex] = tmpInterval;
 
@@ -267,7 +257,8 @@ public class PPG_hrm extends Activity {
 
                         timeSum.set(timeSum.get() + tmpInterval);
 
-                        if(timeSum.get() + 1000 < 60000) cover_graph.startAnimation(disappearedToRight200);
+                        if (timeSum.get() + 1000 < 60000)
+                            cover_graph.startAnimation(disappearedToRight200);
 
                         progress.setProgress(timeSum.get());
 
@@ -275,11 +266,11 @@ public class PPG_hrm extends Activity {
 
                         Log.d("CARDIAC INTERVAL", cardiacIntervalArr[cardiacIntervalIndex] + "");
 
-                        cardiacIntervalIndex ++;
+                        cardiacIntervalIndex++;
 
-                        Log.d("CARDIAC INTERVAL INDEX", cardiacIntervalIndex+"");
+                        Log.d("CARDIAC INTERVAL INDEX", cardiacIntervalIndex + "");
 
-                        if(timeSum.get() + 1000 >= 60000){ //// 1MIN = 60,000 MSEC
+                        if (timeSum.get() + 1000 >= 60000) { //// 1MIN = 60,000 MSEC
                             isDone.set(true);
                             explanation.setText("측정이 완료되었습니다!");
                             Handler initHd = new Handler();
@@ -287,7 +278,7 @@ public class PPG_hrm extends Activity {
                                 @Override
                                 public void run() {
 
-                                    Log.e("adfadfa","1213121231212312");
+                                    Log.e("adfadfa", "1213121231212312");
                                     Intent intent = new Intent(c, PPG_result.class);
                                     intent.putExtra("ci", cardiacIntervalArr);
                                     intent.putExtra("bpm", heartRate);
@@ -344,7 +335,7 @@ public class PPG_hrm extends Activity {
                 }
                 int beatsAvg = (beatsArrayAvg / beatsArrayCnt);
                 heartRate = beatsAvg;
-                bpm.setText(String.valueOf(beatsAvg)+" ");
+                bpm.setText(String.valueOf(beatsAvg) + " ");
                 startTime = System.currentTimeMillis();
                 beats = 0;
             }
@@ -401,25 +392,29 @@ public class PPG_hrm extends Activity {
         return result;
     }
 
-    private void mentEvent(){
-        if(isDone.get() == false) explanation.setText("빛을 이용하여\n맥파를 측정합니다.");
+    private void mentEvent() {
+        if (isDone.get() == false) explanation.setText("빛을 이용하여\n맥파를 측정합니다.");
         mHd.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(isDone.get() == false) explanation.setText("모세혈관에서 혈액교환이\n이루어지는데 이 때 혈류에 흡수되는\n빛의 양을 통해 맥박을 측정합니다.");
+                if (isDone.get() == false)
+                    explanation.setText("모세혈관에서 혈액교환이\n이루어지는데 이 때 혈류에 흡수되는\n빛의 양을 통해 맥박을 측정합니다.");
                 mHd.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if(isDone.get() == false) explanation.setText("일반인의 경우 표준 심박수는\n60~100bpm입니다.");
+                        if (isDone.get() == false)
+                            explanation.setText("일반인의 경우 표준 심박수는\n60~100bpm입니다.");
                         mHd.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                if(isDone.get() == false) explanation.setText("1분 동안의 맥의 수를 계산하여\n심박수를 측정합니다.");
+                                if (isDone.get() == false)
+                                    explanation.setText("1분 동안의 맥의 수를 계산하여\n심박수를 측정합니다.");
                                 mHd.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
                                         mHd.removeCallbacksAndMessages(null);
-                                        if(isDone.get() == false) explanation.setText("측정이 완료될 때까지,\n움직이거나 말은 하지 마세요.");
+                                        if (isDone.get() == false)
+                                            explanation.setText("측정이 완료될 때까지,\n움직이거나 말은 하지 마세요.");
                                         mentEvent();
                                     }
                                 }, 6000);
@@ -430,13 +425,20 @@ public class PPG_hrm extends Activity {
             }
         }, 6000);
     }
+
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_BACK :
-                evnts.launchPreviousActivity(PPG_hrm.this, PPG_measure.class);
-                break;
+    public void onBackPressed() {
+        final long FINSH_INTERVAL_TIME = 2000;
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+
+        if (0 <= intervalTime && FINSH_INTERVAL_TIME >= intervalTime) {
+            finish();
+        } else {
+            backPressedTime = tempTime;
+            Toast.makeText(getApplicationContext(), "'뒤로'버튼을한번더누르시면종료됩니다.", Toast.LENGTH_SHORT).show();
         }
-        return false;
     }
+
+
 }

@@ -8,11 +8,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.SeekBar;
@@ -21,7 +19,6 @@ import android.widget.Toast;
 
 import com.example.user.lxhrvapi.LXHrvAPI;
 
-import etc.Events;
 import etc.Server_Connector;
 
 public class PPG_result extends Activity {
@@ -29,39 +26,31 @@ public class PPG_result extends Activity {
      * Called when the activity is first created.
      */
 
-    Context context;
-    //
-    int[] cardiacIntervalArr; //= new int[60];
-    int[] tach_ay; // = new int[61];
-    //
-    float result_ay[] = new float[15];
-    //
-    int bpm;
-    int cardiacIntervalArrSize;
-    ////////////////////////////////// VIEWS ////////////////////////////////
+    private Context context;
 
-    Events evnts = new Events();
-    //
-    //
+    private int[] cardiacIntervalArr; //= new int[60];
+    private int[] tach_ay; // = new int[61];
 
-    TextView anb;
-    TextView ratio;
-    FrameLayout fl_meter;
-    ImageView needle;
-    TextView conclusion;
-    TextView[] tv = new TextView[4];
-    FrameLayout[] fl = new FrameLayout[4];
-    TextView[] result = new TextView[4];
-    SeekBar[] sb = new SeekBar[4];
-    TextView complete;
-    //
-    int score = 0;
+    private float result_ay[] = new float[15];
 
-    ///
-    int numBack = 0;
+    private int bpm;
+    private int cardiacIntervalArrSize;
 
-    SharedPreferences loginInfo;
-    SharedPreferences.Editor editor;
+    private long backPressedTime = 0;
+
+    private TextView ratio;
+
+    private ImageView needle;
+    private TextView conclusion;
+    private TextView[] tv = new TextView[4];
+    private TextView[] result = new TextView[4];
+    private SeekBar[] sb = new SeekBar[4];
+    private TextView complete;
+
+    private int score = 0;
+
+    private SharedPreferences loginInfo;
+    private SharedPreferences.Editor editor;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,57 +64,34 @@ public class PPG_result extends Activity {
         bpm = getIntent().getIntExtra("bpm", 0);
 
         adjustViews();
-
         analysis();
-
         defineEvent();
-
         titleBar();
     }
 
     private void adjustViews() {
         context = getApplicationContext();
-        //
-        //
-
-        anb = (TextView) findViewById(R.id.anb);
         ratio = (TextView) findViewById(R.id.ratio);
-        fl_meter = (FrameLayout) findViewById(R.id.fl_meter);
         needle = (ImageView) findViewById(R.id.needle);
         conclusion = (TextView) findViewById(R.id.conclusion);
         complete = (TextView) findViewById(R.id.complete);
-        //
-        //
-//        vm.resizeSingleView(sv, "frame", 0, 0, 0, 0, 0, 0);
-//        vm.reformSingleTextBasedView(context, anb, 30, "regular", "linear", 0, 0, 0, 50, 90, 10);
-//        vm.reformSingleTextBasedView(context, ratio, 48, "bold", "linear", 0, 0, 0, 0, 90, 20);
-//        vm.resizeSingleView(fl_meter, "linear", 1080, 492);
-//        vm.resizeSingleView(needle, "frame", 438, 49, 126, 0, 0, 0);
-//        vm.reformSingleTextBasedView(context, conclusion, 120, "light", "linear", 1080, 328); //// DEFAULT FONT SIZE 120
-//        vm.reformSingleTextBasedView(context, complete, 43, "light", "linear", 653, 100, 0, 38, 0, 150); /////////////////////////////////
-//        //
-//        vm.reformMultipleTextView(this, context, "tv_", tv, new int[]{0, 1, 2, 3}, 30, "regular");
-//        vm.reformMultipleTextView(this, context, "result_", result, new int[]{0, 1, 2, 3}, 36, "bold");
-//        vm.resizeMultipleView(this, new int[]{0, 1, 2, 3}, "fl_", fl, "linear", 900, 0);
-//        vm.resizeMultipleView(this, new int[]{0, 1, 2, 3}, "sb_", sb, "linear", 900, 5, 0, 43, 0, 62);
-        //
 
 
-        tv[0] = (TextView)findViewById(R.id.tv_0);
-        tv[1] = (TextView)findViewById(R.id.tv_1);
-        tv[2] = (TextView)findViewById(R.id.tv_2);
-        tv[3] = (TextView)findViewById(R.id.tv_3);
+        tv[0] = (TextView) findViewById(R.id.tv_0);
+        tv[1] = (TextView) findViewById(R.id.tv_1);
+        tv[2] = (TextView) findViewById(R.id.tv_2);
+        tv[3] = (TextView) findViewById(R.id.tv_3);
 
-        result[0] = (TextView)findViewById(R.id.result_0);
-        result[1] = (TextView)findViewById(R.id.result_1);
-        result[2] = (TextView)findViewById(R.id.result_2);
-        result[3] = (TextView)findViewById(R.id.result_3);
+        result[0] = (TextView) findViewById(R.id.result_0);
+        result[1] = (TextView) findViewById(R.id.result_1);
+        result[2] = (TextView) findViewById(R.id.result_2);
+        result[3] = (TextView) findViewById(R.id.result_3);
 
 
-        sb[0] = (SeekBar)findViewById(R.id.sb_0);
-        sb[1] = (SeekBar)findViewById(R.id.sb_1);
-        sb[2] = (SeekBar)findViewById(R.id.sb_2);
-        sb[3] = (SeekBar)findViewById(R.id.sb_3);
+        sb[0] = (SeekBar) findViewById(R.id.sb_0);
+        sb[1] = (SeekBar) findViewById(R.id.sb_1);
+        sb[2] = (SeekBar) findViewById(R.id.sb_2);
+        sb[3] = (SeekBar) findViewById(R.id.sb_3);
 
         sb[0].setMax(100);
         sb[1].setMax(100);
@@ -133,10 +99,10 @@ public class PPG_result extends Activity {
         sb[3].setMax(180);
     }
 
-    private void titleBar(){
-        View titlebar = (View)findViewById(R.id.title_bar);
-        TextView title = (TextView)titlebar.findViewById(R.id.tv_title);
-        ImageView back = (ImageView)titlebar.findViewById(R.id.iv_title_back);
+    private void titleBar() {
+        View titlebar = (View) findViewById(R.id.title_bar);
+        TextView title = (TextView) titlebar.findViewById(R.id.tv_title);
+        ImageView back = (ImageView) titlebar.findViewById(R.id.iv_title_back);
 
         title.setText("스트레스 측정");
         back.setOnClickListener(new View.OnClickListener() {
@@ -144,13 +110,13 @@ public class PPG_result extends Activity {
             public void onClick(View v) {
                 Intent i = new Intent(context, PPG_measure.class);
                 startActivity(i);
-
+                finish();
             }
         });
 
         titlebar.setBackgroundColor(Color.parseColor("#ffffff"));
-        ImageView menu = (ImageView)titlebar.findViewById(R.id.iv_titlebar_menu);
-        if(menu.getVisibility() == View.GONE)
+        ImageView menu = (ImageView) titlebar.findViewById(R.id.iv_titlebar_menu);
+        if (menu.getVisibility() == View.GONE)
             menu.setVisibility(View.VISIBLE);
 
         PopupMenu popupMenu = new PopupMenu(PPG_result.this, menu);
@@ -158,7 +124,7 @@ public class PPG_result extends Activity {
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                switch(item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.logout:
                         loginInfo = getSharedPreferences("loginInfo", Activity.MODE_PRIVATE);
                         editor = loginInfo.edit();
@@ -181,6 +147,7 @@ public class PPG_result extends Activity {
             @Override
             public void onClick(View v) {
                 popupMenu.show();
+
             }
         });
 
@@ -189,35 +156,22 @@ public class PPG_result extends Activity {
     private void defineEvent() {
         setDegree((float) (1.8 * score));
 
-
-        complete.setOnTouchListener(new View.OnTouchListener() {
+        complete.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        //vs.customBox(complete, "#4cb3b6", "#4cb3b6", 1, 50);
-                        //complete.setTextColor(Color.parseColor("#080e3d"));
-                        break;
-                    case MotionEvent.ACTION_CANCEL:
-                        //vs.customBox(complete, "#ffffff", "#4cb3b6", 1, 50);
-                        //complete.setTextColor(Color.parseColor("#ffffff"));
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        //vs.customBox(complete, "#ffffff", "#4cb3b6", 1, 50);
-                        //complete.setTextColor(Color.parseColor("#ffffff"));
-                        evnts.launchPreviousActivity(PPG_result.this, PPG_measure.class); // 다시 측정하기
-                        break;
-                }
-
-                return true;
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), PPG_hrm.class);
+                intent.putExtra("id", getIntent().getStringExtra("id"));
+                intent.putExtra("name", getIntent().getStringExtra("name"));
+                startActivity(intent);
+                finish();
+                overridePendingTransition(R.anim.appear_from_left_300, R.anim.disappear_to_right_300);
             }
         });
     }
 
     private void setDegree(float angle) {
         RotateAnimation anim;
-        anim = new RotateAnimation(0.0f, angle, Animation.RELATIVE_TO_SELF, .936073f, Animation.RELATIVE_TO_SELF, 0.5f);
+        anim = new RotateAnimation(0.0f, angle, Animation.RELATIVE_TO_SELF, .936073f, Animation.RELATIVE_TO_SELF, 0.5f); //.936073f
         anim.setDuration(3000);
         anim.setFillAfter(true);
         needle.startAnimation(anim);
@@ -239,7 +193,7 @@ public class PPG_result extends Activity {
 
         } else {
             ana.GetHrvResult(result_ay);
-            //
+
             setResults();
             saveResults();
         }
@@ -303,7 +257,6 @@ public class PPG_result extends Activity {
     @Override
     public void onBackPressed() {
         final long FINSH_INTERVAL_TIME = 2000;
-        long backPressedTime = 0;
         long tempTime = System.currentTimeMillis();
         long intervalTime = tempTime - backPressedTime;
 
@@ -313,7 +266,5 @@ public class PPG_result extends Activity {
             backPressedTime = tempTime;
             Toast.makeText(getApplicationContext(), "'뒤로'버튼을한번더누르시면종료됩니다.", Toast.LENGTH_SHORT).show();
         }
-
-
     }
 }

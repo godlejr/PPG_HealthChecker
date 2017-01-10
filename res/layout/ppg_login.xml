@@ -88,30 +88,6 @@
                 android:id="@+id/ll_auto"
                 android:layout_weight="1">
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_gravity="top"
-                    android:paddingLeft="50dp"
-                    android:layout_height="25dp">
-
-                    <ImageView
-                        android:layout_height="match_parent"
-                            android:id="@+id/checkbox" android:src="@drawable/check_0"
-                        android:layout_width="35dp" />
-
-                    <TextView
-                        android:text="자동로그인"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:id="@+id/tv_auto"
-                        android:layout_weight="1"
-                        android:textColor="#858585"
-                        android:gravity="center_vertical"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
-
                 <Button
                         android:layout_width="match_parent"
                     android:text="로그인"

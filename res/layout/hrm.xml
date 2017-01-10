@@ -7,18 +7,21 @@
 		android:layout_width="match_parent"
 		layout="@layout/titlebar"
 		android:id="@+id/title_bar"
-		android:layout_height="50dp" />
+		android:layout_height="55dp" />
 
 	<SurfaceView android:id="@+id/preview"
-				 android:layout_weight="1"
-				 android:layout_width="match_parent"
-				 android:layout_height="match_parent" android:layout_marginTop="150px">
-	</SurfaceView>
+android:layout_weight="1"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+		android:layout_marginTop="150dp">
+</SurfaceView>
+
 	<FrameLayout
 			android:layout_width="match_parent"
 			android:layout_height="match_parent" android:id="@+id/mask" android:background="#f5f5f5"
 		android:visibility="visible"
 		android:layout_marginTop="42dp">
+
 	</FrameLayout>
 
 	<FrameLayout
@@ -88,8 +91,8 @@
 			android:id="@+id/explanation"
 		android:textColor="#4cb3b6" android:textSize="18sp"
 		android:layout_gravity="center_horizontal"
-		android:gravity="bottom"
-		android:layout_marginBottom="70dp" />
+		android:gravity="bottom|center"
+		android:layout_marginBottom="50dp" />
 
 
 </FrameLayout>

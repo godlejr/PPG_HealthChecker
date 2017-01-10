@@ -31,8 +31,8 @@
         android:textColor="#4cb3b6"
         android:visibility="visible"
         android:layout_weight="1.5"
-        android:textSize="18sp"
-        android:gravity="top"
+        android:textSize="20sp"
+        android:gravity="top|center"
         android:paddingTop="20dp" />
 
     <Button

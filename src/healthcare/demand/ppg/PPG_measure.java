@@ -6,39 +6,26 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import etc.Events;
 
 public class PPG_measure extends Activity {
     /**
      * Called when the activity is first created.
      */
 
+    private Context context;
+    private TextView measure;
 
-    Events events = new Events();
+    private SharedPreferences loginInfo;
+    private SharedPreferences.Editor editor;
 
-    //
-    Context context;
-    //
-    FrameLayout fl_circle;
-    ImageView camlight;
-    TextView how;
-    TextView measure;
-    //
-    int numBack = 0; // TO FORCE EXIT
-
-    SharedPreferences loginInfo;
-    SharedPreferences.Editor editor;
+    private long backPressedTime = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,18 +40,9 @@ public class PPG_measure extends Activity {
 
     private void titleBar(){
         View titlebar = (View)findViewById(R.id.title_bar);
-        TextView title = (TextView)titlebar.findViewById(R.id.tv_title);
         ImageView back = (ImageView)titlebar.findViewById(R.id.iv_title_back);
 
-        title.setText("스트레스 측정 (맥파/호흡)");
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, PPG_login.class);
-                startActivity(i);
-                finish();
-            }
-        });
+        back.setVisibility(View.GONE);
 
         ImageView menu = (ImageView)titlebar.findViewById(R.id.iv_titlebar_menu);
         PopupMenu popupMenu = new PopupMenu(context, menu);
@@ -92,7 +70,6 @@ public class PPG_measure extends Activity {
             }
         });
 
-
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,13 +81,7 @@ public class PPG_measure extends Activity {
 
     private void adjustViews() {
         context = getApplicationContext();
-
-        fl_circle = (FrameLayout) findViewById(R.id.fl_circle);
-        camlight = (ImageView) findViewById(R.id.camlight);
-        how = (TextView) findViewById(R.id.how);
         measure = (TextView) findViewById(R.id.measure);
-
-
     }
 
     private void defineEvent() {
@@ -119,14 +90,12 @@ public class PPG_measure extends Activity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        //vs.customBox(measure, "#f5f5f5", "#4cb3b6", 1, 50);
                         measure.setTextColor(Color.parseColor("#080e3d"));
                         break;
 
                     case MotionEvent.ACTION_UP:
-                        //vs.customBox(measure, "#4cb3b6", "#4cb3b6", 1, 50);
                         measure.setTextColor(Color.parseColor("#ffffff"));
-                        //
+
                         Intent intent = new Intent(PPG_measure.this, PPG_hrm.class);
                         intent.putExtra("id", getIntent().getStringExtra("id"));
                         intent.putExtra("name", getIntent().getStringExtra("name"));
@@ -142,33 +111,17 @@ public class PPG_measure extends Activity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_BACK :
-                ///////// TOAST EVENT
+    public void onBackPressed() {
+        final long FINSH_INTERVAL_TIME = 2000;
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
 
-                if(numBack == 0){
-                    numBack = 1;
-                    events.toastMessage(context, "뒤로 가기 버튼을 한번 더 누르면 종료됩니다");
-                    final Handler hd = new Handler();
-                    hd.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            hd.removeCallbacksAndMessages(null);
-
-                            hd.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    numBack = 0;
-                                }
-                            }, 1000);
-                        }
-                    }, 1000);
-                } else {
-                    android.os.Process.killProcess(android.os.Process.myPid());
-                }
-                break;
+        if (0 <= intervalTime && FINSH_INTERVAL_TIME >= intervalTime) {
+            this.finish();
+        } else {
+            backPressedTime = tempTime;
+            Toast.makeText(getApplicationContext(), "'뒤로'버튼을한번더누르시면종료됩니다.", Toast.LENGTH_SHORT).show();
         }
-        return false;
     }
+
 }

@@ -5,15 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -26,31 +20,19 @@ public class PPG_login extends Activity {
      * Called when the activity is first created.
      */
 
-    Context context;
+    private Context context;
 
-    // VIEWS
-    ImageView splash;
-    LinearLayout ll_login;
-    ImageView upper_logo;
-    TextView tv_id, tv_pw;
-    EditText et_id, et_pw;
-    ImageView line_0, line_1;
-    LinearLayout ll_auto;
-    TextView tv_auto;
-    //TextView tv_find; // NOT YET
-    TextView login;
-    //TextView join; // NOT YET
-
-    // ANIMS
-    Animation fade_in_1500, fade_out_1500;
+    private EditText et_id, et_pw;
 
     // SERVER & PREFERENCES
-    Server_Connector connector;
+    private Server_Connector connector;
 
-    String email, pwd; //request
-    SharedPreferences loginInfo;
-    SharedPreferences.Editor editor;
-    String id, name; //response
+    private String email, pwd; //request
+    private SharedPreferences loginInfo;
+    private SharedPreferences.Editor editor;
+    private String id, name; //response
+
+    private long backPressedTime = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,23 +46,10 @@ public class PPG_login extends Activity {
     private void adjustViews() {
 
         context = getApplicationContext();
-        // VIEWS : DEFINE
-        ll_login = (LinearLayout) findViewById(R.id.ll_login);
-        upper_logo = (ImageView) findViewById(R.id.upper_logo);
-        tv_id = (TextView) findViewById(R.id.tv_id);
-        tv_pw = (TextView) findViewById(R.id.tv_pw);
+
         et_id = (EditText) findViewById(R.id.et_id);
         et_pw = (EditText) findViewById(R.id.et_pw);
-        line_0 = (ImageView) findViewById(R.id.line_0);
-        line_1 = (ImageView) findViewById(R.id.line_1);
-        ll_auto = (LinearLayout) findViewById(R.id.ll_auto);
-        tv_auto = (TextView) findViewById(R.id.tv_auto);
-        //tv_find = (TextView)findViewById(R.id.tv_find); // NOT YET
-        login = (TextView) findViewById(R.id.login);
-        //join = (TextView)findViewById(R.id.join); // NOT YET
-        // ANIMS
-        fade_in_1500 = AnimationUtils.loadAnimation(this, R.anim.fade_in_1500);
-        fade_out_1500 = AnimationUtils.loadAnimation(this, R.anim.fade_out_1500);
+
     }
 
     private void defineEvent() {
@@ -137,12 +106,17 @@ public class PPG_login extends Activity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_BACK:
-                android.os.Process.killProcess(android.os.Process.myPid());
+    public void onBackPressed() {
+        final long FINSH_INTERVAL_TIME = 2000;
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+
+        if (0 <= intervalTime && FINSH_INTERVAL_TIME >= intervalTime) {
+            this.finish();
+        } else {
+            backPressedTime = tempTime;
+            Toast.makeText(getApplicationContext(), "'뒤로'버튼을한번더누르시면종료됩니다.", Toast.LENGTH_SHORT).show();
         }
-        return false;
     }
 
 
