@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -31,7 +30,7 @@ public class PPG_login extends Activity {
     Context context;
 
     // VIEWS
-    ImageView splash;
+//    ImageView splash;
     LinearLayout ll_login;
     ImageView upper_logo;
     TextView tv_id, tv_pw;
@@ -63,7 +62,7 @@ public class PPG_login extends Activity {
         setContentView(R.layout.ppg_login);
 
         adjustViews();
-        splashEvent();
+//        splashEvent();
         firstView();
         defineEvent();
     }
@@ -72,7 +71,7 @@ public class PPG_login extends Activity {
 
         context = getApplicationContext();
         // VIEWS : DEFINE
-        splash = (ImageView) findViewById(R.id.splash);
+//        splash = (ImageView) findViewById(R.id.splash);
         ll_login = (LinearLayout) findViewById(R.id.ll_login);
         upper_logo = (ImageView) findViewById(R.id.upper_logo);
         tv_id = (TextView) findViewById(R.id.tv_id);
@@ -154,32 +153,32 @@ public class PPG_login extends Activity {
 //        });
     }
 
-    private void splashEvent() {
-        final Handler hd = new Handler();
-        splash.startAnimation(fade_in_1500);
-        hd.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                splash.startAnimation(fade_out_1500);
-                hd.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        splash.setVisibility(View.GONE);
-                        hd.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                ll_login.setVisibility(View.VISIBLE);
-                                login.setVisibility(View.VISIBLE);
-                                ll_login.startAnimation(fade_in_1500);
-                                login.startAnimation(fade_in_1500);
-                                hd.removeCallbacksAndMessages(null);
-                            }
-                        }, 500);
-                    }
-                }, 1000);
-            }
-        }, 1000);
-    }
+//    private void splashEvent() {
+//        final Handler hd = new Handler();
+//        splash.startAnimation(fade_in_1500);
+//        hd.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                splash.startAnimation(fade_out_1500);
+//                hd.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        splash.setVisibility(View.GONE);
+//                        hd.postDelayed(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                ll_login.setVisibility(View.VISIBLE);
+//                                login.setVisibility(View.VISIBLE);
+//                                ll_login.startAnimation(fade_in_1500);
+//                                login.startAnimation(fade_in_1500);
+//                                hd.removeCallbacksAndMessages(null);
+//                            }
+//                        }, 500);
+//                    }
+//                }, 1000);
+//            }
+//        }, 1000);
+//    }
 
     public void login() {
         email = et_id.getText().toString();
@@ -189,6 +188,7 @@ public class PPG_login extends Activity {
         connector = new Server_Connector();
         connector.addVariable("email", email);
         connector.addVariable("password", pwd);
+        connector.execute(url + "login");
         connector.execute(url + "login");
 
         try {

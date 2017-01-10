@@ -3,17 +3,17 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
              android:background="#f5f5f5">
-    <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/splash" android:layout_gravity="center" android:src="@drawable/ppg_demand"
-            android:visibility="visible"
-        android:padding="130dp" />
+    <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:id="@+id/splash" android:layout_gravity="center" android:src="@drawable/ppg_demand"-->
+            <!--android:visibility="visible"-->
+        <!--android:padding="130dp" />-->
 
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" android:id="@+id/ll_login" android:visibility="gone">
+            android:layout_height="match_parent" android:id="@+id/ll_login" android:visibility="visible">
 
         <ImageView
                 android:layout_width="wrap_content"
