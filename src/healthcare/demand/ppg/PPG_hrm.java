@@ -93,7 +93,7 @@ public class PPG_hrm extends Activity {
     /////////////////////////////////////////////////////////////////////////
     Handler mHd = new Handler();
     public static AtomicBoolean isDone = new AtomicBoolean(false);
-    //
+
     public static String id;
     public static String name;
     // 161123
