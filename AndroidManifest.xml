@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application android:label="@string/app_name" android:icon="@drawable/ic_launcher" android:largeHeap="true">
-        <activity android:name="PPG_login"
+        <activity android:name=".PPG_intro"
                   android:label="@string/app_name"
                   android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
@@ -25,5 +25,6 @@
         <activity android:name=".PPG_hrm" android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
         android:launchMode="singleInstance"></activity>
         <activity android:name=".PPG_result" android:screenOrientation="portrait" android:theme="@android:style/Theme.Holo.NoActionBar"></activity>
+        <activity android:name=".PPG_login" android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
     </application>
 </manifest>

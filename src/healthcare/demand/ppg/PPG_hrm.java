@@ -259,7 +259,7 @@ public class PPG_hrm extends Activity {
 
                     formerCardiacInterval = updatedCardiacInterval;
 
-                    if(tmpInterval > 333 && tmpInterval < 1200) {
+                    if(tmpInterval > 333 && tmpInterval < 1200) { //**
 
                         cardiacIntervalArr[cardiacIntervalIndex] = tmpInterval;
 
@@ -283,7 +283,6 @@ public class PPG_hrm extends Activity {
                             isDone.set(true);
                             explanation.setText("측정이 완료되었습니다!");
                             Handler initHd = new Handler();
-                            Log.e("adfadfa","아시발");
                             initHd.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
