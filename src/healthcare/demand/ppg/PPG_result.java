@@ -3,6 +3,7 @@ package healthcare.demand.ppg;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -58,6 +59,9 @@ public class PPG_result extends Activity {
 
     ///
     int numBack = 0;
+
+    SharedPreferences loginInfo;
+    SharedPreferences.Editor editor;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -156,7 +160,17 @@ public class PPG_result extends Activity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch(item.getItemId()){
                     case R.id.logout:
-                        Toast.makeText(PPG_result.this, "로그아웃", Toast.LENGTH_SHORT).show();
+                        loginInfo = getSharedPreferences("loginInfo", Activity.MODE_PRIVATE);
+                        editor = loginInfo.edit();
+                        editor.remove("id");
+                        editor.remove("name");
+                        editor.commit();
+
+                        Intent Intent = new Intent(PPG_result.this, PPG_login.class);
+                        PPG_result.this.startActivity(Intent);
+                        PPG_result.this.finish();
+
+                        Toast.makeText(context, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
                         break;
                 }
                 return true;
@@ -284,37 +298,6 @@ public class PPG_result extends Activity {
         sb[2].setProgress((int) (result_ay[2] * 10));
         sb[3].setProgress((int) (result_ay[6] * 10));
     }
-//
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        switch (keyCode) {
-//            case KeyEvent.KEYCODE_BACK:
-//                ///////// TOAST EVENT
-//
-//                if (numBack == 0) {
-//                    numBack = 1;
-//                    evnts.toastMessage(context, "뒤로 가기 버튼을 한번 더 누르면 종료됩니다");
-//                    final Handler hd = new Handler();
-//                    hd.postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            hd.removeCallbacksAndMessages(null);
-//
-//                            hd.postDelayed(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    numBack = 0;
-//                                }
-//                            }, 1000);
-//                        }
-//                    }, 1000);
-//                } else {
-//                    android.os.Process.killProcess(android.os.Process.myPid());
-//                }
-//                break;
-//        }
-//        return false;
-//    }
 
 
     @Override

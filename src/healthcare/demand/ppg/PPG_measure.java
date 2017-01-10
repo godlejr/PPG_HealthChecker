@@ -3,6 +3,7 @@ package healthcare.demand.ppg;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,6 +36,9 @@ public class PPG_measure extends Activity {
     TextView measure;
     //
     int numBack = 0; // TO FORCE EXIT
+
+    SharedPreferences loginInfo;
+    SharedPreferences.Editor editor;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,7 +74,18 @@ public class PPG_measure extends Activity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch(item.getItemId()){
                     case R.id.logout:
-                        Toast.makeText(context, "로그아웃", Toast.LENGTH_SHORT).show();
+
+                        loginInfo = getSharedPreferences("loginInfo", Activity.MODE_PRIVATE);
+                        editor = loginInfo.edit();
+                        editor.remove("id");
+                        editor.remove("name");
+                        editor.commit();
+
+                        Intent Intent = new Intent(PPG_measure.this, PPG_login.class);
+                        PPG_measure.this.startActivity(Intent);
+                        PPG_measure.this.finish();
+
+                        Toast.makeText(context, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
                         break;
                 }
                 return true;
@@ -89,19 +104,12 @@ public class PPG_measure extends Activity {
 
     private void adjustViews() {
         context = getApplicationContext();
-        //
-        ///////////// DEFINE ELEMENTS OF TITLEBAR
-        //
+
         fl_circle = (FrameLayout) findViewById(R.id.fl_circle);
         camlight = (ImageView) findViewById(R.id.camlight);
         how = (TextView) findViewById(R.id.how);
         measure = (TextView) findViewById(R.id.measure);
-        //
-//        vm.resizeSingleView(fl_circle, "frame", 652, 652, 0, 250, 0, 0);
-//        vm.reformSingleTextBasedView(context, how, 43, "regular", "frame", 0, 0, 0, 1100, 0, 0);
-//        vm.reformSingleTextBasedView(context, measure, 43, "regular", "frame", 653, 100, 0, 0, 0, 150);
-        //vs.customBox(measure, "#4cb3b6", "#4cb3b6", 1, 50);
-        //
+
 
     }
 
@@ -125,9 +133,6 @@ public class PPG_measure extends Activity {
                         startActivity(intent);
                         finish();
                         overridePendingTransition(R.anim.appear_from_right_300, R.anim.disappear_to_left_300);
-
-
-
 
                         break;
                 }
